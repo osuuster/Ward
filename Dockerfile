@@ -1,14 +1,12 @@
 FROM python:3-alpine
 
-MAINTAINER Oliver Suuster
+RUN mkdir -p /app
+WORKDIR /app
 
-WORKDIR C:\Users\Administrator.DESKTOP-NTBIGRE\Google Drive\Ward
+COPY ./src/requirements.txt /app/requirements.txt
+RUN pip install -r requirements.txt
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ./src/ /app/
+ENV FLASK_APP=server.py
 
-COPY . .
-
-EXPOSE 5000
-
-CMD [ "python", "app.py" ]
+CMD flask run -h 0.0.0.0 -p 5000
